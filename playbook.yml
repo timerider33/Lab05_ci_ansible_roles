@@ -19,7 +19,8 @@
   become: true
 
   tasks:
-    - ansible.builtin.debug:
+    - name: Show hosts from inventory
+      ansible.builtin.debug:
         msg: "{{ item }}"
       loop: "{{ groups['hosts'] }}"
 
