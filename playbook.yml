@@ -1,0 +1,35 @@
+---
+- name: Deploy nginx virtual hosts
+  hosts: hosts
+  become: true
+
+# Вынес vars в group_vars/all.yml
+  # vars:
+  #   sites:
+  #     - mehmat.ru
+  #     - fizfak.ru
+  #     - etis.com
+  #     - fakesite.com
+
+  roles:
+    - nginx_vhosts
+
+- name: Play to update local hosts file
+  hosts: localhost
+  become: true
+
+  tasks:
+    - ansible.builtin.debug:
+        msg: "{{ item }}"
+      loop: "{{ groups['hosts'] }}"
+
+# Предполагаем, что список sites будет взят из group_vars/all.yml
+    - name: "Build hosts file"
+      ansible.builtin.blockinfile:
+        dest: /etc/hosts
+        block: |
+          {% for host_ip in groups['hosts'] %}
+          {% for host_name in sites %}
+          {{ host_ip }} {{ host_name }}
+          {% endfor %}
+          {% endfor %}

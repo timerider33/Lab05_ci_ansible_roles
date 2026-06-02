@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>fizfak.ru</title>
+</head>
+<body>
+    <h1>Hello! Site: fizfak.ru</h1>
+    <p>This page was deployed by Ansible role.</p>
+</body>
+</html>

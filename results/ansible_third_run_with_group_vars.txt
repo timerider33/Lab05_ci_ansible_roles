@@ -1,0 +1,76 @@
+
+PLAY [Deploy nginx virtual hosts] **********************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [10.0.22.4]
+ok: [10.0.22.3]
+
+TASK [nginx_vhosts : Install nginx] ********************************************
+ok: [10.0.22.4]
+ok: [10.0.22.3]
+
+TASK [nginx_vhosts : Create sites root directories] ****************************
+ok: [10.0.22.3] => (item=mehmat.ru)
+ok: [10.0.22.4] => (item=mehmat.ru)
+ok: [10.0.22.3] => (item=fizfak.ru)
+ok: [10.0.22.4] => (item=fizfak.ru)
+ok: [10.0.22.3] => (item=etis.com)
+ok: [10.0.22.4] => (item=etis.com)
+ok: [10.0.22.3] => (item=fakesite.com)
+ok: [10.0.22.4] => (item=fakesite.com)
+
+TASK [nginx_vhosts : Create index.html for each virtual host] ******************
+ok: [10.0.22.4] => (item=mehmat.ru)
+ok: [10.0.22.3] => (item=mehmat.ru)
+ok: [10.0.22.3] => (item=fizfak.ru)
+ok: [10.0.22.4] => (item=fizfak.ru)
+ok: [10.0.22.4] => (item=etis.com)
+ok: [10.0.22.3] => (item=etis.com)
+ok: [10.0.22.4] => (item=fakesite.com)
+ok: [10.0.22.3] => (item=fakesite.com)
+
+TASK [nginx_vhosts : Create nginx config for each virtual host] ****************
+ok: [10.0.22.3] => (item=mehmat.ru)
+ok: [10.0.22.4] => (item=mehmat.ru)
+ok: [10.0.22.3] => (item=fizfak.ru)
+ok: [10.0.22.4] => (item=fizfak.ru)
+ok: [10.0.22.3] => (item=etis.com)
+ok: [10.0.22.4] => (item=etis.com)
+ok: [10.0.22.3] => (item=fakesite.com)
+ok: [10.0.22.4] => (item=fakesite.com)
+
+TASK [nginx_vhosts : Enable nginx sites] ***************************************
+ok: [10.0.22.3] => (item=mehmat.ru)
+ok: [10.0.22.4] => (item=mehmat.ru)
+ok: [10.0.22.3] => (item=fizfak.ru)
+ok: [10.0.22.4] => (item=fizfak.ru)
+ok: [10.0.22.3] => (item=etis.com)
+ok: [10.0.22.4] => (item=etis.com)
+ok: [10.0.22.3] => (item=fakesite.com)
+ok: [10.0.22.4] => (item=fakesite.com)
+
+TASK [nginx_vhosts : Ensure nginx is started and enabled] **********************
+ok: [10.0.22.4]
+ok: [10.0.22.3]
+
+PLAY [Play to update local hosts file] *****************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [localhost]
+
+TASK [ansible.builtin.debug] ***************************************************
+ok: [localhost] => (item=10.0.22.3) => {
+    "msg": "10.0.22.3"
+}
+ok: [localhost] => (item=10.0.22.4) => {
+    "msg": "10.0.22.4"
+}
+
+TASK [Build hosts file] ********************************************************
+ok: [localhost]
+
+PLAY RECAP *********************************************************************
+10.0.22.3                  : ok=7    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+10.0.22.4                  : ok=7    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+localhost                  : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

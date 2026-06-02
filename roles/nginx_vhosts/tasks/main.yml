@@ -1,0 +1,48 @@
+---
+- name: Install nginx
+  ansible.builtin.apt:
+    name: nginx
+    state: present
+    update_cache: true
+
+- name: Create sites root directories
+  ansible.builtin.file:
+    path: "/var/www/{{ item }}"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: "0755"
+  loop: "{{ sites }}"
+
+- name: Create index.html for each virtual host
+  ansible.builtin.template:
+    src: index.html.j2
+    dest: "/var/www/{{ item }}/index.html"
+    owner: www-data
+    group: www-data
+    mode: "0644"
+  loop: "{{ sites }}"
+
+- name: Create nginx config for each virtual host
+  ansible.builtin.template:
+    src: vhost.conf.j2
+    dest: "/etc/nginx/sites-available/{{ item }}.conf"
+    owner: root
+    group: root
+    mode: "0644"
+  loop: "{{ sites }}"
+  notify: Reload nginx
+
+- name: Enable nginx sites
+  ansible.builtin.file:
+    src: "/etc/nginx/sites-available/{{ item }}.conf"
+    dest: "/etc/nginx/sites-enabled/{{ item }}.conf"
+    state: link
+  loop: "{{ sites }}"
+  notify: Reload nginx
+
+- name: Ensure nginx is started and enabled
+  ansible.builtin.service:
+    name: nginx
+    state: started
+    enabled: true
